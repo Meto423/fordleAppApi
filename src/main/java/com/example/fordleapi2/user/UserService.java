@@ -28,6 +28,7 @@ public class UserService {
         return userRepository.findAll();
     }
 
+
     public void addNewUser(MyUser user){
 
         Optional<MyUser> userOptional = userRepository.findUserByEmail(user.getEmail());

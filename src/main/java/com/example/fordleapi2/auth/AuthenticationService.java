@@ -10,6 +10,7 @@ package com.example.fordleapi2.auth;
 import com.example.fordleapi2.GameData.GameData;
 import com.example.fordleapi2.GameData.GameDataRepository;
 import com.example.fordleapi2.config.JwtService;
+import com.example.fordleapi2.email.EmailService;
 import com.example.fordleapi2.user.MyUser;
 import com.example.fordleapi2.user.Role;
 import com.example.fordleapi2.user.UserRepository;
@@ -29,6 +30,7 @@ public class AuthenticationService {
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
     private final GameDataRepository gamedataRepository;
+    private final EmailService emailService;
 
 
     public AuthenticationResponse register(RegisterRequest request) { // create a user, save it to the database, and return a JWT token
@@ -54,6 +56,8 @@ public class AuthenticationService {
 
         userRepository.save(user);
         gamedataRepository.save(gameData);
+
+        emailService.sendRegistrationEmail(user.getEmail());
 
 
         var jwtToken = jwtService.generateToken(user);
